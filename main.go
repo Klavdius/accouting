@@ -4,11 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 )
 
 func main() {
-	file, err := os.OpenFile("./finance.txt", os.O_APPEND|os.O_CREATE|os.O_RDWR|os.O_TRUNC|os.O_SYNC, 0777)
+	file, err := os.OpenFile("./finance.txt", os.O_APPEND|os.O_CREATE|os.O_RDWR|os.O_TRUNC, 0777)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -16,7 +15,13 @@ func main() {
 	var command, res string
 	var lines = []string{}
 
+	date := make([]byte, 0)
 	fmt.Println(res)
+	_, err = file.Read(date)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(date)
 	scan := bufio.NewScanner(file)
 	for scan.Scan() {
 		lines = append(lines, scan.Text())
@@ -35,32 +40,14 @@ func main() {
 			Write(*file, lines)
 			break
 		}
-		switch command {
-		case "list":
-			fmt.Println("List")
-		case "newbalance":
-			NewBalance(lines)
-		case "current":
-			res := "current -- \n"
-			file.WriteString(res)
-		} //END SWITCH
 
-	}
-}
-
-func NewBalance(newLines []string) {
-	fmt.Println("Введите новый баланс")
-	str := ""
-	targetLine := 0
-	fmt.Fscan(os.Stdin, &str)
-	for i, v := range newLines {
-		var res bool
-		res = strings.Contains(v, "balance")
-		if res == true {
-			targetLine = i
+		iter, ok := allMap[command]
+		if ok != false {
+			Action(lines, iter)
+		} else {
+			fmt.Println("Нет такой команды(( наберите list")
 		}
 	}
-	newLines[targetLine] = "balance -> " + str
 }
 
 func CreatEmptyList(slice []string) []string {
