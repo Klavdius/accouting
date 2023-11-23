@@ -1,34 +1,37 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func main() {
-	file, err := os.OpenFile("./finance.txt", os.O_APPEND|os.O_CREATE|os.O_RDWR|os.O_TRUNC, 0777)
+	file, err := os.OpenFile("./finance.txt", os.O_CREATE|os.O_RDWR, 0777)
 	if err != nil {
 		fmt.Println(err)
 	}
 	defer file.Close()
-	var command, res string
+	var command string
 	var lines = []string{}
 
-	date := make([]byte, 0)
-	fmt.Println(res)
-	_, err = file.Read(date)
+	//custom system read from file
+	fileData, err := os.ReadFile("./finance.txt")
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(date)
-	scan := bufio.NewScanner(file)
-	for scan.Scan() {
-		lines = append(lines, scan.Text())
+	stringFileData := string(fileData)
+	stringData := strings.Split(stringFileData, "\n")
+	if len(stringData) == 1 {
+		stringData = nil
 	}
+	for _, word := range stringData {
+		lines = append(lines, word)
+	}
+	//***************************************************************
 
 	//check empty list finance.txt
-	if len(lines) == 0 {
+	if len(lines) <= 1 {
 		lines = CreatEmptyList(lines)
 	}
 
@@ -51,12 +54,8 @@ func main() {
 }
 
 func CreatEmptyList(slice []string) []string {
-	slice = append(slice, "balance -> 0 ")
-	slice = append(slice, "target -> 0 ")
-	slice = append(slice, "salary -> 0 ")
-	slice = append(slice, "expenses -> 0 ")
-	slice = append(slice, "currentDay -> 0 ")
-	slice = append(slice, "beforeDay -> 0 ")
-	slice = append(slice, "moneyInDay -> 0 ")
+	for _, teg := range fullTeg {
+		slice = append(slice, teg+" -> 0")
+	}
 	return slice
 }

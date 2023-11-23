@@ -8,6 +8,7 @@ import (
 
 var message = []string{"Введите новый баланс", "Введите новую цель", "Введите новое поступление", "Введите расходы", "Введите текущий день", "До какого дня считаем"}
 var teg = []string{"balance", "target", "salary", "expenses", "currentDay", "beforeDay"}
+var fullTeg = []string{"balance", "target", "salary", "expenses", "currentDay", "beforeDay", "moneyInDay"}
 
 func Action(newLines []string, num int) {
 	fmt.Println(message[num])
