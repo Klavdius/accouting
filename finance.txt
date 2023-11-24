@@ -1,9 +1,7 @@
-balance -> 998
-target -> 7000
+balance -> 0
+target -> 0
 salary -> 0
 expenses -> 0
-currentDay -> 0
+currentDay -> 1
 beforeDay -> 0
 moneyInDay -> 0
-
-

@@ -28,6 +28,7 @@ func main() {
 	for _, word := range stringData {
 		lines = append(lines, word)
 	}
+
 	//***************************************************************
 
 	//check empty list finance.txt
@@ -51,11 +52,4 @@ func main() {
 			fmt.Println("Нет такой команды(( наберите list")
 		}
 	}
-}
-
-func CreatEmptyList(slice []string) []string {
-	for _, teg := range fullTeg {
-		slice = append(slice, teg+" -> 0")
-	}
-	return slice
 }

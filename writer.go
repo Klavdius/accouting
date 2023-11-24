@@ -5,7 +5,11 @@ import (
 )
 
 func Write(file os.File, list []string) {
-	for _, v := range list {
-		file.WriteString(v + "\n")
+	for i, v := range list {
+		if i < 6 {
+			file.WriteString(v + "\n")
+		} else {
+			file.WriteString(v)
+		}
 	}
 }

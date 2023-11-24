@@ -9,3 +9,7 @@ var allMap = map[string]int{
 	"newBeforeDay":  5,
 	"list":          6,
 }
+
+var serviceMap = map[int]func(){
+	6: ShowList,
+}
