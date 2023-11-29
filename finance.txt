@@ -2,6 +2,7 @@ balance -> 0
 target -> 0
 salary -> 0
 expenses -> 0
-currentDay -> 1
-beforeDay -> 0
+currentDay -> 7.2
+beforeDay -> 12.2
+daysLeft -> 5
 moneyInDay -> 0

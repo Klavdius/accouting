@@ -47,7 +47,7 @@ func main() {
 
 		iter, ok := allMap[command]
 		if ok != false {
-			Action(lines, iter)
+			MainAction(lines, iter)
 		} else {
 			fmt.Println("Нет такой команды(( наберите list")
 		}
