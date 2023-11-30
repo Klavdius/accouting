@@ -36,6 +36,9 @@ func main() {
 		lines = CreatEmptyList(lines)
 	}
 
+	updateDay := GetTimeStamp()
+	ActionAdd(lines, "currentDay", updateDay)
+
 	for {
 		fmt.Println("Введите команду или \"list\"")
 		fmt.Fscan(os.Stdin, &command)

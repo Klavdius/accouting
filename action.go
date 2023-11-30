@@ -7,7 +7,7 @@ import (
 )
 
 func MainAction(newLines []string, num int) {
-	if num < 6 {
+	if num < 5 {
 		ActionNew(newLines, num)
 	}
 
@@ -30,9 +30,12 @@ func ActionNew(newLines []string, num int) {
 			targetLine = i
 		}
 	}
+	//if num == 4 {
+	//	str = StringInTimeStamp(str)
+	//}
 	newLines[targetLine] = teg[num] + " -> " + str
 
-	newLines = CheckDays(newLines)
+	//newLines = CheckDays(newLines)
 }
 
 func ActionAdd(newLines []string, line string, data string) {
@@ -51,7 +54,8 @@ func CreatEmptyList(slice []string) []string {
 	for _, teg := range fullTeg {
 		slice = append(slice, teg+" -> 0")
 	}
-	ActionAdd(slice, "currentDay", "1")
+	currentDay := GetTimeStamp()
+	ActionAdd(slice, "currentDay", currentDay)
 
 	return slice
 }
