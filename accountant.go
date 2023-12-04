@@ -40,6 +40,7 @@ func main() {
 	ActionAdd(lines, "currentDay", updateDay)
 
 	for {
+		Display(lines)
 		fmt.Println("Введите команду или \"list\"")
 		fmt.Fscan(os.Stdin, &command)
 		if command == "exit" { //EXIT FROM FOR

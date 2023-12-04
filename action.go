@@ -47,6 +47,13 @@ func ActionAdd(newLines []string, line string, data string) {
 	newLines[targetLine] = line + " -> " + data
 }
 
+func Display(lines []string) {
+	meBal := GetStringDataLine(lines, "balance")
+	meTar := GetStringDataLine(lines, "target")
+	meMID := GetStringDataLine(lines, "moneyInDay")
+
+	fmt.Println("Текущий баланс: " + meBal + "  Цель достич: " + meTar + "\n" + "Доступно в день: " + meMID)
+}
 func CreatEmptyList(slice []string) []string {
 	for _, teg := range fullTeg {
 		slice = append(slice, teg+" -> 0")

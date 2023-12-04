@@ -1,8 +1,9 @@
 balance -> 54000
-target -> 0
+target -> 60200
 salary -> 75000
 expenses -> 12500
 beforeDay -> 2023-Dec-25
-currentDay -> 1701687491
+currentDay -> 1701697171
 daysLeft -> 21
-moneyInDay -> 2976
+moneyInDay -> 109
+saveMoney -> 0
