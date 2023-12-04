@@ -1,8 +1,8 @@
-balance -> 0
+balance -> 54000
 target -> 0
-salary -> 0
-expenses -> 0
-beforeDay -> 2023/12/6
-currentDay -> 1701347984
-daysLeft -> 0
-moneyInDay -> 01701346457daysLeft -> 0moneyInDay -> 0Day -> 0
+salary -> 75000
+expenses -> 12500
+beforeDay -> 2023-Dec-25
+currentDay -> 1701687491
+daysLeft -> 21
+moneyInDay -> 2976

@@ -30,12 +30,9 @@ func ActionNew(newLines []string, num int) {
 			targetLine = i
 		}
 	}
-	//if num == 4 {
-	//	str = StringInTimeStamp(str)
-	//}
 	newLines[targetLine] = teg[num] + " -> " + str
 
-	//newLines = CheckDays(newLines)
+	newLines = CheckDays(newLines)
 }
 
 func ActionAdd(newLines []string, line string, data string) {

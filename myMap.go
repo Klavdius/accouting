@@ -3,8 +3,8 @@ package main
 var allMap = map[string]int{
 	"newBalance":   0,
 	"newTarget":    1,
-	"newSalary":    2,
-	"newExpenses":  3,
+	"Plus":         2,
+	"Minus":        3,
 	"newBeforeDay": 4,
 	"list":         5,
 	"nbd":          4,
