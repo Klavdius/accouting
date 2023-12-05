@@ -38,7 +38,7 @@ func main() {
 
 	updateDay := GetTimeStamp()
 	ActionAdd(lines, "currentDay", updateDay)
-
+	CheckDays(lines)
 	for {
 		Display(lines)
 		fmt.Println("Введите команду или \"list\"")

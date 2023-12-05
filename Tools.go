@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -26,12 +27,14 @@ func ShowList() {
 func CheckDays(newLine []string) []string {
 	data := GetStringDataLine(newLine, "beforeDay")
 	tm, _ := time.Parse(layout, data)
-	dayLeft := tm.Day()
-	day := time.Now().Day()
-	dayLeft = dayLeft - day
-
-	FindMID(newLine, dayLeft)
-	str_dayLeft := strconv.Itoa(dayLeft)
+	dayLeft := tm.Unix()
+	day := time.Now().Unix()
+	jkk := dayLeft - day
+	needDay := float64(jkk / 86400)
+	needDay = math.Round(needDay)
+	leftDays := int(needDay)
+	FindMID(newLine, leftDays)
+	str_dayLeft := strconv.Itoa(leftDays)
 	ActionAdd(newLine, "daysLeft", str_dayLeft)
 	return newLine
 }
@@ -41,9 +44,11 @@ func FindMID(lines []string, days int) {
 	meExp := GetDataLine(lines, "expenses")
 	meTarget := GetDataLine(lines, "target")
 	meBal := GetDataLine(lines, "balance")
-	meSave := meTarget - meBal
-	MID := (meSalary - meExp - meSave) / days
+	meSave := (meBal + meSalary) - meTarget - meExp
+	MID := meSave / days
 	strMID := strconv.Itoa(MID)
+	strSave := strconv.Itoa(meSave)
+	ActionAdd(lines, "saveMoney", strSave)
 	ActionAdd(lines, "moneyInDay", strMID)
 }
 func GetTimeStamp() string {

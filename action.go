@@ -33,6 +33,7 @@ func ActionNew(newLines []string, num int) {
 	newLines[targetLine] = teg[num] + " -> " + str
 
 	newLines = CheckDays(newLines)
+
 }
 
 func ActionAdd(newLines []string, line string, data string) {
@@ -50,9 +51,10 @@ func ActionAdd(newLines []string, line string, data string) {
 func Display(lines []string) {
 	meBal := GetStringDataLine(lines, "balance")
 	meTar := GetStringDataLine(lines, "target")
+	meSave := GetStringDataLine(lines, "saveMoney")
 	meMID := GetStringDataLine(lines, "moneyInDay")
 
-	fmt.Println("Текущий баланс: " + meBal + "  Цель достич: " + meTar + "\n" + "Доступно в день: " + meMID)
+	fmt.Println("Текущий баланс: " + meBal + "  Цель достич: " + meTar + "\n" + "Доступно: " + meSave + " Доступно в день: " + meMID)
 }
 func CreatEmptyList(slice []string) []string {
 	for _, teg := range fullTeg {
