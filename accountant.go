@@ -22,7 +22,7 @@ func main() {
 	}
 	stringFileData := string(fileData)
 	stringData := strings.Split(stringFileData, "\n")
-	if len(stringData) == 1 {
+	if len(stringData) < 4 {
 		stringData = nil
 	}
 	for _, word := range stringData {
@@ -36,12 +36,13 @@ func main() {
 		lines = CreatEmptyList(lines)
 	}
 
-	updateDay := GetTimeStamp()
-	ActionAdd(lines, "currentDay", updateDay)
+	//update all days
 	CheckDays(lines)
+	/*********************************/
+
 	for {
 		Display(lines)
-		fmt.Println("Введите команду или \"list\"")
+		fmt.Println("Введите команду или \"list\" для справки")
 		fmt.Fscan(os.Stdin, &command)
 		if command == "exit" { //EXIT FROM FOR
 			fmt.Println("exit from program")

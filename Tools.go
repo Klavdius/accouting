@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math"
 	"os"
 	"strconv"
@@ -10,35 +9,30 @@ import (
 )
 
 var message = []string{"Введите новый баланс", "Введите новую цель", "Введите новое поступление", "Введите расходы", "До какого дня считаем в формате год-месяц-день (2023-Dec-25)"}
-var teg = []string{"balance", "target", "salary", "expenses", "beforeDay", "currentDay"}
-var fullTeg = []string{"balance", "target", "salary", "expenses", "beforeDay", "currentDay", "daysLeft", "moneyInDay", "saveMoney"}
-var dayInMonth = []int{0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335}
-var tm = time.Unix(0, 0)
-var epoch = tm.Unix()
+var teg = []string{"balance", "target", "salary", "expenses", "beforeDay"}
+var fullTeg = []string{"balance", "target", "salary", "expenses", "beforeDay", "daysLeft", "moneyInDay", "saveMoney"}
+var month = []string{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
 
 const layout = "2006-Jan-02"
 
-func ShowList() {
-	for key, _ := range allMap {
-		fmt.Println(key)
-	}
-}
-
 func CheckDays(newLine []string) []string {
 	data := GetStringDataLine(newLine, "beforeDay")
-	tm, _ := time.Parse(layout, data)
-	dayLeft := tm.Unix()
-	day := time.Now().Unix()
-	jkk := dayLeft - day
-	needDay := float64(jkk / 86400)
-	needDay = math.Round(needDay)
-	leftDays := int(needDay)
-	FindMID(newLine, leftDays)
-	str_dayLeft := strconv.Itoa(leftDays)
-	ActionAdd(newLine, "daysLeft", str_dayLeft)
+	if data != "0" {
+		tm, _ := time.Parse(layout, data)
+		dayLeft := tm.Unix()
+		day := time.Now().Unix()
+		jkk := dayLeft - day
+		needDay := float64(jkk / 86400)
+		needDay = math.Round(needDay)
+		leftDays := int(needDay)
+		FindMID(newLine, leftDays)
+		str_dayLeft := strconv.Itoa(leftDays)
+		ActionAdd(newLine, "daysLeft", str_dayLeft)
+	}
 	return newLine
 }
 
+// find money in day
 func FindMID(lines []string, days int) {
 	meSalary := GetDataLine(lines, "salary")
 	meExp := GetDataLine(lines, "expenses")
@@ -51,6 +45,7 @@ func FindMID(lines []string, days int) {
 	ActionAdd(lines, "saveMoney", strSave)
 	ActionAdd(lines, "moneyInDay", strMID)
 }
+
 func GetTimeStamp() string {
 	tm := time.Now().Unix()
 	int_tm := int(tm)
@@ -58,6 +53,7 @@ func GetTimeStamp() string {
 	return str_data
 }
 
+// get data fron target slice
 func GetDataLine(lines []string, line string) int {
 	var res bool
 	var targetLine int
@@ -73,6 +69,7 @@ func GetDataLine(lines []string, line string) int {
 	return myInt
 }
 
+// get data from target slice in string format, for show
 func GetStringDataLine(lines []string, line string) string {
 	var res bool
 	var targetLine int
@@ -87,6 +84,7 @@ func GetStringDataLine(lines []string, line string) string {
 	return myStr
 }
 
+// custom write date in txt file
 func Write(file os.File, list []string) {
 	leng := len(list)
 	for i, v := range list {

@@ -18,8 +18,15 @@ func MainAction(newLines []string, num int) {
 
 }
 
+// add user data in slice
 func ActionNew(newLines []string, num int) {
 	fmt.Println(message[num])
+	if num == 4 {
+		for _, v := range month {
+			fmt.Print(v + "  ")
+		}
+		fmt.Println()
+	}
 	var str string
 	var targetLine int
 	var res bool
@@ -36,6 +43,7 @@ func ActionNew(newLines []string, num int) {
 
 }
 
+// add data in target slice
 func ActionAdd(newLines []string, line string, data string) {
 	var res bool
 	var targetLine int
@@ -48,20 +56,33 @@ func ActionAdd(newLines []string, line string, data string) {
 	newLines[targetLine] = line + " -> " + data
 }
 
+// show base info
 func Display(lines []string) {
-	meBal := GetStringDataLine(lines, "balance")
-	meTar := GetStringDataLine(lines, "target")
-	meSave := GetStringDataLine(lines, "saveMoney")
-	meMID := GetStringDataLine(lines, "moneyInDay")
-
-	fmt.Println("Текущий баланс: " + meBal + "  Цель достич: " + meTar + "\n" + "Доступно: " + meSave + " Доступно в день: " + meMID)
+	myBal := GetStringDataLine(lines, "balance")
+	myTar := GetStringDataLine(lines, "target")
+	myMoney := GetStringDataLine(lines, "saveMoney")
+	myMID := GetStringDataLine(lines, "moneyInDay")
+	myDay := GetStringDataLine(lines, "daysLeft")
+	fmt.Println("Текущий баланс: " + myBal + "  Цель достич: " + myTar + "\n" + "Доступно: " + myMoney + " Доступно в день: " + myMID + " Осталось дней: " + myDay)
 }
+
+// show all function
+func ShowList() {
+	for key, value := range allMap {
+		fmt.Print(key)
+		leng := len(key)
+		for i := leng; i < 15; i++ {
+			fmt.Print(".")
+		}
+		fmt.Println(listHelp[value])
+	}
+	fmt.Println()
+}
+
 func CreatEmptyList(slice []string) []string {
 	for _, teg := range fullTeg {
 		slice = append(slice, teg+" -> 0")
 	}
-	currentDay := GetTimeStamp()
-	ActionAdd(slice, "currentDay", currentDay)
 
 	return slice
 }
