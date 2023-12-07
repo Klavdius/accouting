@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -13,9 +14,8 @@ func MainAction(newLines []string, num int) {
 
 	iter, ok := serviceMap[num]
 	if ok != false {
-		iter()
+		iter(newLines)
 	}
-
 }
 
 // add user data in slice
@@ -38,9 +38,7 @@ func ActionNew(newLines []string, num int) {
 		}
 	}
 	newLines[targetLine] = teg[num] + " -> " + str
-
 	newLines = CheckDays(newLines)
-
 }
 
 // add data in target slice
@@ -67,7 +65,7 @@ func Display(lines []string) {
 }
 
 // show all function
-func ShowList() {
+func ShowList(lines []string) {
 	for key, value := range allMap {
 		fmt.Print(key)
 		leng := len(key)
@@ -79,10 +77,16 @@ func ShowList() {
 	fmt.Println()
 }
 
+func NextDay(lines []string) {
+	day := GetDataLine(lines, "daysLeft")
+	save := GetDataLine(lines, "saveMoney")
+	nexMID := save / (day - 1)
+	strNMID := strconv.Itoa(nexMID)
+	fmt.Println("На следующий день доступно: " + strNMID + "\n")
+}
 func CreatEmptyList(slice []string) []string {
 	for _, teg := range fullTeg {
 		slice = append(slice, teg+" -> 0")
 	}
-
 	return slice
 }

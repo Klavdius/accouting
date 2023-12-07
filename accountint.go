@@ -42,7 +42,7 @@ func main() {
 
 	for {
 		Display(lines)
-		fmt.Println("Введите команду или \"list\" для справки")
+		fmt.Println("\n" + "Введите команду или \"List\" для справки")
 		fmt.Fscan(os.Stdin, &command)
 		if command == "exit" { //EXIT FROM FOR
 			fmt.Println("exit from program")

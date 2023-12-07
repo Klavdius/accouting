@@ -21,8 +21,8 @@ func CheckDays(newLine []string) []string {
 		tm, _ := time.Parse(layout, data)
 		dayLeft := tm.Unix()
 		day := time.Now().Unix()
-		jkk := dayLeft - day
-		needDay := float64(jkk / 86400)
+		remains := dayLeft - day
+		needDay := float64(remains / 86400)
 		needDay = math.Round(needDay)
 		leftDays := int(needDay)
 		FindMID(newLine, leftDays)
