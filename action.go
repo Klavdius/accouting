@@ -90,3 +90,7 @@ func CreatEmptyList(slice []string) []string {
 	}
 	return slice
 }
+
+func Exit(lines []string) {
+
+}

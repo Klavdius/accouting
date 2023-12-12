@@ -8,6 +8,7 @@ var allMap = map[string]int{
 	"Day":     4,
 	"List":    5,
 	"NextDay": 6,
+	"Exit":    7,
 }
 
 var listHelp = map[int]string{
@@ -18,8 +19,10 @@ var listHelp = map[int]string{
 	4: "Введите до какого дня вы копите",
 	5: "Помощь с программой",
 	6: "Доступные расходы на следующий день",
+	7: "Выйти из программы",
 }
 var serviceMap = map[int]func(slice []string){
 	5: ShowList,
 	6: NextDay,
+	7: Exit,
 }
