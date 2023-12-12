@@ -44,7 +44,7 @@ func main() {
 		Display(lines)
 		fmt.Println("\n" + "Введите команду или \"List\" для справки")
 		fmt.Fscan(os.Stdin, &command)
-		if command == "exit" { //EXIT FROM FOR
+		if command == "Exit" || command == "exit" { //EXIT FROM FOR
 			fmt.Println("exit from program")
 			Write(*file, lines)
 			break
