@@ -8,7 +8,7 @@ import (
 )
 
 func MainAction(newLines []string, num int) {
-	if num < 5 {
+	if num < 4 {
 		ActionNew(newLines, num)
 	}
 
@@ -21,24 +21,24 @@ func MainAction(newLines []string, num int) {
 // add user data in slice
 func ActionNew(newLines []string, num int) {
 	fmt.Println(message[num])
-	if num == 4 {
-		for _, v := range month {
-			fmt.Print(v + "  ")
-		}
-		fmt.Println()
-	}
+
 	var str string
 	var targetLine int
 	var res bool
 	fmt.Fscan(os.Stdin, &str)
-	for i, v := range newLines {
-		res = strings.Contains(v, teg[num])
-		if res == true {
-			targetLine = i
+	if _, err := strconv.Atoi(str); err == nil {
+		for i, v := range newLines {
+			res = strings.Contains(v, teg[num])
+			if res == true {
+				targetLine = i
+			}
 		}
+		newLines[targetLine] = teg[num] + " -> " + str
+		newLines = CheckDays(newLines)
+	} else {
+		fmt.Println("!!Введено не число!!\n")
 	}
-	newLines[targetLine] = teg[num] + " -> " + str
-	newLines = CheckDays(newLines)
+
 }
 
 // add data in target slice
@@ -52,6 +52,25 @@ func ActionAdd(newLines []string, line string, data string) {
 		}
 	}
 	newLines[targetLine] = line + " -> " + data
+}
+
+func SetDay(lines []string) {
+	for _, v := range month {
+		fmt.Print(v + "  ")
+	}
+	fmt.Println()
+	var str string
+	var targetLine int
+	var res bool
+	fmt.Fscan(os.Stdin, &str)
+	for i, v := range lines {
+		res = strings.Contains(v, teg[4])
+		if res == true {
+			targetLine = i
+		}
+	}
+	lines[targetLine] = teg[4] + " -> " + str
+	lines = CheckDays(lines)
 }
 
 // show base info

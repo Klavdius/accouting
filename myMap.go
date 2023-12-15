@@ -22,6 +22,7 @@ var listHelp = map[int]string{
 	7: "Выйти из программы",
 }
 var serviceMap = map[int]func(slice []string){
+	4: SetDay,
 	5: ShowList,
 	6: NextDay,
 	7: Exit,

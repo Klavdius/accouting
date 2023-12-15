@@ -47,6 +47,7 @@ func main() {
 		if command == "Exit" || command == "exit" { //EXIT FROM FOR
 			fmt.Println("exit from program")
 			Write(*file, lines)
+			WriteLog(lines)
 			break
 		}
 

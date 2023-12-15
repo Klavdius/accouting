@@ -1,8 +1,8 @@
 balance -> 108796
 target -> 115000
 salary -> 60900
-expenses -> 31600
+expenses -> 37000
 beforeDay -> 2024-Jan-01
-daysLeft -> 19
-moneyInDay -> 1215
-saveMoney -> 23096
+daysLeft -> 16
+moneyInDay -> 1106
+saveMoney -> 17696
