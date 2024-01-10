@@ -22,9 +22,11 @@ func MainAction(newLines []string, num int) {
 func ActionNew(newLines []string, num int) {
 	fmt.Println(message[num])
 
-	var str string
-	var targetLine int
-	var res bool
+	var (
+		str        string
+		targetLine int
+		res        bool
+	)
 	fmt.Fscan(os.Stdin, &str)
 	if _, err := strconv.Atoi(str); err == nil {
 		for i, v := range newLines {
@@ -35,6 +37,11 @@ func ActionNew(newLines []string, num int) {
 		}
 		newLines[targetLine] = teg[num] + " -> " + str
 		newLines = CheckDays(newLines)
+
+		balance := FindIntBalance(newLines)
+		strBalance := strconv.Itoa(balance)
+		ActionAdd(newLines, "balance", strBalance)
+
 	} else {
 		fmt.Println("!!Введено не число!!\n")
 	}
@@ -43,8 +50,10 @@ func ActionNew(newLines []string, num int) {
 
 // add data in target slice
 func ActionAdd(newLines []string, line string, data string) {
-	var res bool
-	var targetLine int
+	var (
+		res        bool
+		targetLine int
+	)
 	for i, v := range newLines {
 		res = strings.Contains(v, line)
 		if res == true {
@@ -55,22 +64,54 @@ func ActionAdd(newLines []string, line string, data string) {
 }
 
 func SetDay(lines []string) {
+	fmt.Println(message[5])
 	for _, v := range month {
 		fmt.Print(v + "  ")
 	}
 	fmt.Println()
-	var str string
-	var targetLine int
-	var res bool
+	var (
+		str        string
+		targetLine int
+		res        bool
+	)
 	fmt.Fscan(os.Stdin, &str)
 	for i, v := range lines {
-		res = strings.Contains(v, teg[4])
+		res = strings.Contains(v, teg[5])
 		if res == true {
 			targetLine = i
 		}
 	}
-	lines[targetLine] = teg[4] + " -> " + str
+	lines[targetLine] = teg[5] + " -> " + str
 	lines = CheckDays(lines)
+}
+
+func Minus(lines []string) {
+	var input, strBalance string
+	fmt.Println(message[4])
+	fmt.Fscan(os.Stdin, &input)
+	if _, err := strconv.Atoi(input); err == nil {
+		ActionAdd(lines, "expenses", input)
+		balance := FindIntBalance(lines)
+		strBalance = strconv.Itoa(balance)
+		ActionAdd(lines, "balance", strBalance)
+
+	} else {
+		fmt.Println("!!Введено не число!!\n")
+	}
+}
+
+func Plus(lines []string) {
+	var input string
+	fmt.Println(message[3])
+	fmt.Fscan(os.Stdin, &input)
+	if newPlus, err := strconv.Atoi(input); err == nil {
+		base := GetDataLine(lines, "base")
+		base = base + newPlus
+		strBase := strconv.Itoa(base)
+		ActionAdd(lines, "base", strBase)
+	} else {
+		fmt.Println("!!Введено не число!!\n")
+	}
 }
 
 // show base info

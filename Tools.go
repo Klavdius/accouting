@@ -8,9 +8,9 @@ import (
 	"time"
 )
 
-var message = []string{"Введите новый баланс", "Введите новую цель", "Введите новое поступление", "Введите расходы", "До какого дня считаем в формате год-месяц-день (2023-Dec-25)"}
-var teg = []string{"balance", "target", "salary", "expenses", "beforeDay"}
-var fullTeg = []string{"balance", "target", "salary", "expenses", "beforeDay", "daysLeft", "moneyInDay", "saveMoney"}
+var message = []string{"Введите начальную сумму", "Введите новый баланс", "Введите новую цель", "Введите новое поступление", "Введите расходы", "До какого дня считаем в формате год-месяц-день (2023-Dec-25)"}
+var teg = []string{"base", "balance", "target", "salary", "expenses", "beforeDay"}
+var fullTeg = []string{"base", "balance", "target", "salary", "expenses", "beforeDay", "daysLeft", "moneyInDay", "saveMoney"}
 var month = []string{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
 
 const layout = "2006-Jan-02"
@@ -37,8 +37,8 @@ func FindMID(lines []string, days int) {
 	meSalary := GetDataLine(lines, "salary")
 	meExp := GetDataLine(lines, "expenses")
 	meTarget := GetDataLine(lines, "target")
-	meBal := GetDataLine(lines, "balance")
-	meSave := (meBal + meSalary) - meTarget - meExp
+	meBase := GetDataLine(lines, "base")
+	meSave := (meBase + meSalary) - meTarget - meExp
 	MID := meSave / days
 	strMID := strconv.Itoa(MID)
 	strSave := strconv.Itoa(meSave)
@@ -55,8 +55,10 @@ func GetTimeStamp() string {
 
 // get data fron target slice
 func GetDataLine(lines []string, line string) int {
-	var res bool
-	var targetLine int
+	var (
+		res        bool
+		targetLine int
+	)
 	for i, v := range lines {
 		res = strings.Contains(v, line)
 		if res == true {
@@ -71,8 +73,10 @@ func GetDataLine(lines []string, line string) int {
 
 // get data from target slice in string format, for show
 func GetStringDataLine(lines []string, line string) string {
-	var res bool
-	var targetLine int
+	var (
+		res        bool
+		targetLine int
+	)
 	for i, v := range lines {
 		res = strings.Contains(v, line)
 		if res == true {
@@ -82,6 +86,17 @@ func GetStringDataLine(lines []string, line string) string {
 	dateslice := strings.Split(lines[targetLine], "-> ")
 	myStr := dateslice[1]
 	return myStr
+}
+
+// Find current Balance with current date in slise
+func FindIntBalance(lines []string) int {
+	var (
+		base, exp, balance int
+	)
+	base = GetDataLine(lines, "base")
+	exp = GetDataLine(lines, "expenses")
+	balance = base - exp
+	return balance
 }
 
 // custom write date in txt file
