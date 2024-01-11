@@ -27,7 +27,10 @@ func ActionNew(newLines []string, num int) {
 		targetLine int
 		res        bool
 	)
-	fmt.Fscan(os.Stdin, &str)
+	_, err := fmt.Fscan(os.Stdin, &str)
+	if err != nil {
+		return
+	}
 	if _, err := strconv.Atoi(str); err == nil {
 		for i, v := range newLines {
 			res = strings.Contains(v, teg[num])
@@ -74,7 +77,10 @@ func SetDay(lines []string) {
 		targetLine int
 		res        bool
 	)
-	fmt.Fscan(os.Stdin, &str)
+	_, err := fmt.Fscan(os.Stdin, &str)
+	if err != nil {
+		return
+	}
 	for i, v := range lines {
 		res = strings.Contains(v, teg[5])
 		if res == true {
@@ -88,13 +94,17 @@ func SetDay(lines []string) {
 func Minus(lines []string) {
 	var input, strBalance string
 	fmt.Println(message[4])
-	fmt.Fscan(os.Stdin, &input)
+	_, err := fmt.Fscan(os.Stdin, &input)
+	if err != nil {
+		return
+	}
+
 	if _, err := strconv.Atoi(input); err == nil {
 		ActionAdd(lines, "expenses", input)
 		balance := FindIntBalance(lines)
 		strBalance = strconv.Itoa(balance)
 		ActionAdd(lines, "balance", strBalance)
-
+		CheckDays(lines)
 	} else {
 		fmt.Println("!!Введено не число!!\n")
 	}
@@ -103,12 +113,16 @@ func Minus(lines []string) {
 func Plus(lines []string) {
 	var input string
 	fmt.Println(message[3])
-	fmt.Fscan(os.Stdin, &input)
+	_, err := fmt.Fscan(os.Stdin, &input)
+	if err != nil {
+		return
+	}
 	if newPlus, err := strconv.Atoi(input); err == nil {
 		base := GetDataLine(lines, "base")
 		base = base + newPlus
 		strBase := strconv.Itoa(base)
 		ActionAdd(lines, "base", strBase)
+		CheckDays(lines)
 	} else {
 		fmt.Println("!!Введено не число!!\n")
 	}

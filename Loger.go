@@ -39,7 +39,10 @@ func WriteLog(lines []string) {
 }
 
 func WriteInLog(file os.File, str string) {
-	file.WriteString(str + "\n")
+	_, err := file.WriteString(str + "\n")
+	if err != nil {
+		return
+	}
 }
 
 // get latest data form log file for analisys
