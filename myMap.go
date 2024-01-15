@@ -25,11 +25,11 @@ var listHelp = map[int]string{
 	8: "Доступные расходы на следующий день",
 	9: "Выйти из программы",
 }
-var serviceMap = map[int]func(slice []string){
-	4: Plus,
-	5: Minus,
-	6: SetDay,
-	7: ShowList,
-	8: NextDay,
+var serviceMap = map[int]func(){
+	4: IncrementBase,
+	5: IncrementExpenses,
+	6: SetNewTargetDay,
+	7: ShowListHelp,
+	8: ShowInfoNextDay,
 	9: Exit,
 }

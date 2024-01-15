@@ -7,21 +7,20 @@ import (
 	"strings"
 )
 
-func MainAction(newLines []string, num int) {
+func SelectionUserCommand(num int) {
 	if num < 4 {
-		ActionNew(newLines, num)
+		fmt.Println(message[num])
+		WriteNewDataInLines(num)
 	}
 
 	iter, ok := serviceMap[num]
 	if ok != false {
-		iter(newLines)
+		iter()
 	}
 }
 
 // add user data in slice
-func ActionNew(newLines []string, num int) {
-	fmt.Println(message[num])
-
+func WriteNewDataInLines(num int) {
 	var (
 		str        string
 		targetLine int
@@ -32,19 +31,13 @@ func ActionNew(newLines []string, num int) {
 		return
 	}
 	if _, err := strconv.Atoi(str); err == nil {
-		for i, v := range newLines {
+		for i, v := range lines {
 			res = strings.Contains(v, teg[num])
 			if res == true {
 				targetLine = i
 			}
 		}
-		newLines[targetLine] = teg[num] + " -> " + str
-		newLines = CheckDays(newLines)
-
-		balance := FindIntBalance(newLines)
-		strBalance := strconv.Itoa(balance)
-		ActionAdd(newLines, "balance", strBalance)
-
+		lines[targetLine] = teg[num] + " -> " + str
 	} else {
 		fmt.Println("!!Введено не число!!\n")
 	}
@@ -66,7 +59,7 @@ func ActionAdd(newLines []string, line string, data string) {
 	newLines[targetLine] = line + " -> " + data
 }
 
-func SetDay(lines []string) {
+func SetNewTargetDay() {
 	fmt.Println(message[5])
 	for _, v := range month {
 		fmt.Print(v + "  ")
@@ -88,11 +81,10 @@ func SetDay(lines []string) {
 		}
 	}
 	lines[targetLine] = teg[5] + " -> " + str
-	lines = CheckDays(lines)
 }
 
-func Minus(lines []string) {
-	var input, strBalance string
+func IncrementExpenses() {
+	var input string
 	fmt.Println(message[4])
 	_, err := fmt.Fscan(os.Stdin, &input)
 	if err != nil {
@@ -101,16 +93,12 @@ func Minus(lines []string) {
 
 	if _, err := strconv.Atoi(input); err == nil {
 		ActionAdd(lines, "expenses", input)
-		balance := FindIntBalance(lines)
-		strBalance = strconv.Itoa(balance)
-		ActionAdd(lines, "balance", strBalance)
-		CheckDays(lines)
 	} else {
 		fmt.Println("!!Введено не число!!\n")
 	}
 }
 
-func Plus(lines []string) {
+func IncrementBase() {
 	var input string
 	fmt.Println(message[3])
 	_, err := fmt.Fscan(os.Stdin, &input)
@@ -118,28 +106,27 @@ func Plus(lines []string) {
 		return
 	}
 	if newPlus, err := strconv.Atoi(input); err == nil {
-		base := GetDataLine(lines, "base")
+		base := GetDataLine("base")
 		base = base + newPlus
 		strBase := strconv.Itoa(base)
 		ActionAdd(lines, "base", strBase)
-		CheckDays(lines)
 	} else {
 		fmt.Println("!!Введено не число!!\n")
 	}
 }
 
 // show base info
-func Display(lines []string) {
-	myBal := GetStringDataLine(lines, "balance")
-	myTar := GetStringDataLine(lines, "target")
-	myMoney := GetStringDataLine(lines, "saveMoney")
-	myMID := GetStringDataLine(lines, "moneyInDay")
-	myDay := GetStringDataLine(lines, "daysLeft")
+func DisplayMainInfo() {
+	myBal := GetStringDataLine("balance")
+	myTar := GetStringDataLine("target")
+	myMoney := GetStringDataLine("saveMoney")
+	myMID := GetStringDataLine("moneyInDay")
+	myDay := GetStringDataLine("daysLeft")
 	fmt.Println("Текущий баланс: " + myBal + "  Цель достич: " + myTar + "\n" + "Доступно: " + myMoney + " Доступно в день: " + myMID + " Осталось дней: " + myDay)
 }
 
 // show all function
-func ShowList(lines []string) {
+func ShowListHelp() {
 	for key, value := range allMap {
 		fmt.Print(key)
 		leng := len(key)
@@ -151,9 +138,9 @@ func ShowList(lines []string) {
 	fmt.Println()
 }
 
-func NextDay(lines []string) {
-	day := GetDataLine(lines, "daysLeft")
-	save := GetDataLine(lines, "saveMoney")
+func ShowInfoNextDay() {
+	day := GetDataLine("daysLeft")
+	save := GetDataLine("saveMoney")
 	nexMID := save / (day - 1)
 	strNMID := strconv.Itoa(nexMID)
 	fmt.Println("На следующий день доступно: " + strNMID + "\n")
@@ -165,6 +152,6 @@ func CreatEmptyList(slice []string) []string {
 	return slice
 }
 
-func Exit(lines []string) {
+func Exit() {
 
 }

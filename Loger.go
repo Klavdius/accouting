@@ -20,10 +20,10 @@ func WriteLog(lines []string) {
 		fmt.Println(err)
 	}
 
-	save := GetStringDataLine(lines, "saveMoney")
-	expenses := GetStringDataLine(lines, "expenses")
-	MID := GetDataLine(lines, "moneyInDay")
-	strMID := GetStringDataLine(lines, "moneyInDay")
+	save := GetStringDataLine("saveMoney")
+	expenses := GetStringDataLine("expenses")
+	MID := GetDataLine("moneyInDay")
+	strMID := GetStringDataLine("moneyInDay")
 	day := time.Now()
 
 	analyses := " Хорошо"
