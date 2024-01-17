@@ -1,9 +1,9 @@
 base -> 151173
-balance -> 114710
-target -> 116332
+balance -> 108685
+target -> 112332
 salary -> 17400
-expenses -> 36463
+expenses -> 42488
 beforeDay -> 2024-Feb-01
-daysLeft -> 16
-moneyInDay -> 986
-saveMoney -> 15778
+daysLeft -> 14
+moneyInDay -> 982
+saveMoney -> 13753

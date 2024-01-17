@@ -29,7 +29,6 @@ var serviceMap = map[int]func(){
 	4: IncrementBase,
 	5: IncrementExpenses,
 	6: SetNewTargetDay,
-	7: ShowListHelp,
+	7: ShowListNameAllFunction,
 	8: ShowInfoNextDay,
-	9: Exit,
 }

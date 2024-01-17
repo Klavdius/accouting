@@ -115,18 +115,16 @@ func IncrementBase() {
 	}
 }
 
-// show base info
 func DisplayMainInfo() {
-	myBal := GetStringDataLine("balance")
-	myTar := GetStringDataLine("target")
-	myMoney := GetStringDataLine("saveMoney")
-	myMID := GetStringDataLine("moneyInDay")
-	myDay := GetStringDataLine("daysLeft")
+	myBal := GetStringDataLineFromSlice("balance")
+	myTar := GetStringDataLineFromSlice("target")
+	myMoney := GetStringDataLineFromSlice("saveMoney")
+	myMID := GetStringDataLineFromSlice("moneyInDay")
+	myDay := GetStringDataLineFromSlice("daysLeft")
 	fmt.Println("Текущий баланс: " + myBal + "  Цель достич: " + myTar + "\n" + "Доступно: " + myMoney + " Доступно в день: " + myMID + " Осталось дней: " + myDay)
 }
 
-// show all function
-func ShowListHelp() {
+func ShowListNameAllFunction() {
 	for key, value := range allMap {
 		fmt.Print(key)
 		leng := len(key)
@@ -150,8 +148,4 @@ func CreatEmptyList(slice []string) []string {
 		slice = append(slice, teg+" -> 0")
 	}
 	return slice
-}
-
-func Exit() {
-
 }

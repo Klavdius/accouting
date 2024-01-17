@@ -17,7 +17,7 @@ var month = []string{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Se
 const layout = "2006-Jan-02"
 
 func CheckTodayDays() {
-	data := GetStringDataLine("beforeDay")
+	data := GetStringDataLineFromSlice("beforeDay")
 	if data != "0" {
 		tm, _ := time.Parse(layout, data)
 		dayLeft := tm.Unix()
@@ -69,8 +69,7 @@ func GetDataLine(nameFieldInSlice string) int {
 	return myInt
 }
 
-// get data from target slice in string format, for show
-func GetStringDataLine(nameLineInSlice string) string {
+func GetStringDataLineFromSlice(nameLineInSlice string) string {
 	var (
 		res        bool
 		targetLine int
