@@ -16,8 +16,8 @@ var month = []string{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Se
 
 const layout = "2006-Jan-02"
 
-func CheckTodayDays() {
-	data := GetStringDataLineFromSlice("beforeDay")
+func CheckDayUntil() {
+	data := GetStringDataFromFieldSlice("beforeDay")
 	if data != "0" {
 		tm, _ := time.Parse(layout, data)
 		dayLeft := tm.Unix()
@@ -27,32 +27,36 @@ func CheckTodayDays() {
 		needDay = math.Round(needDay)
 		leftDays := int(needDay)
 		str_dayLeft := strconv.Itoa(leftDays)
-		ActionAdd(lines, "daysLeft", str_dayLeft)
+		AddDataInLineSlice("daysLeft", str_dayLeft)
 	}
 
 }
 
-// find money in day
 func FindManeyInOneDay() {
-	days := GetDataLine("daysLeft")
-	meSave := GetDataLine("saveMoney")
-	ManeyInOneDay := meSave / days
-	strMID := strconv.Itoa(ManeyInOneDay)
-	ActionAdd(lines, "moneyInDay", strMID)
+	days := GetIntDataFromFieldSlice("daysLeft")
+	meSave := GetIntDataFromFieldSlice("saveMoney")
+	if days != 0 {
+		ManeyInOneDay := meSave / days
+		strMID := strconv.Itoa(ManeyInOneDay)
+		AddDataInLineSlice("moneyInDay", strMID)
+	} else {
+		AddDataInLineSlice("moneyInDay", "0")
+	}
+
 }
 
 func FindSaveMoney() {
-	meSalary := GetDataLine("salary")
-	meExp := GetDataLine("expenses")
-	meTarget := GetDataLine("target")
-	meBase := GetDataLine("base")
+	meSalary := GetIntDataFromFieldSlice("salary")
+	meExp := GetIntDataFromFieldSlice("expenses")
+	meTarget := GetIntDataFromFieldSlice("target")
+	meBase := GetIntDataFromFieldSlice("base")
 	meSave := (meBase + meSalary) - meTarget - meExp
 	strSave := strconv.Itoa(meSave)
-	ActionAdd(lines, "saveMoney", strSave)
+	AddDataInLineSlice("saveMoney", strSave)
 }
 
 // get data fron target slice
-func GetDataLine(nameFieldInSlice string) int {
+func GetIntDataFromFieldSlice(nameFieldInSlice string) int {
 	var (
 		res        bool
 		targetLine int
@@ -69,13 +73,13 @@ func GetDataLine(nameFieldInSlice string) int {
 	return myInt
 }
 
-func GetStringDataLineFromSlice(nameLineInSlice string) string {
+func GetStringDataFromFieldSlice(nameFieldInSlice string) string {
 	var (
 		res        bool
 		targetLine int
 	)
 	for i, v := range lines {
-		res = strings.Contains(v, nameLineInSlice)
+		res = strings.Contains(v, nameFieldInSlice)
 		if res == true {
 			targetLine = i
 		}
@@ -85,20 +89,19 @@ func GetStringDataLineFromSlice(nameLineInSlice string) string {
 	return myStr
 }
 
-// Find current Balance with current date in slise
-func CheckBalance() {
+func ChengeBalance() {
 	var (
 		base, exp, balance int
 	)
-	base = GetDataLine("base")
-	exp = GetDataLine("expenses")
+	base = GetIntDataFromFieldSlice("base")
+	exp = GetIntDataFromFieldSlice("expenses")
 	balance = base - exp
 	strBalance := strconv.Itoa(balance)
-	ActionAdd(lines, "balance", strBalance)
+	AddDataInLineSlice("balance", strBalance)
 }
 
 // custom write date in txt file
-func Write(file os.File, list []string) {
+func WriteDateInFile(file os.File, list []string) {
 	leng := len(list)
 	for i, v := range list {
 		if i < (leng - 1) {
@@ -116,7 +119,8 @@ func BuildSliceLinesFromFile(fileName string) {
 	}
 	stringFileData := string(fileData)
 	stringData := strings.Split(stringFileData, "\n")
-	if len(stringData) < 4 {
+	CheckEmptyFile := 2
+	if len(stringData) < CheckEmptyFile {
 		stringData = nil
 	}
 	for _, word := range stringData {

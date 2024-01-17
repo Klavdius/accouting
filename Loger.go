@@ -18,9 +18,9 @@ func WriteLog(lines []string) {
 	}
 	defer logFile.Close()
 
-	save := GetStringDataLineFromSlice("saveMoney")
-	expenses := GetStringDataLineFromSlice("expenses")
-	strMID := GetStringDataLineFromSlice("moneyInDay")
+	save := GetStringDataFromFieldSlice("saveMoney")
+	expenses := GetStringDataFromFieldSlice("expenses")
+	strMID := GetStringDataFromFieldSlice("moneyInDay")
 
 	analyses, err := GetAnalysesLog(strMID)
 	if err != nil {

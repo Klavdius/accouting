@@ -18,15 +18,15 @@ func main() {
 	BuildSliceLinesFromFile("./finance.txt")
 	//check empty list finance.txt
 	if len(lines) <= 1 {
-		lines = CreatEmptyList(lines)
+		CreatEmptyList()
 	}
 	//update all days
 
 	/*********************************/
 
 	for {
-		CheckTodayDays()
-		CheckBalance()
+		CheckDayUntil()
+		ChengeBalance()
 		FindSaveMoney()
 		FindManeyInOneDay()
 		DisplayMainInfo()
@@ -34,7 +34,7 @@ func main() {
 		fmt.Println("\n" + "Введите команду или \"List\" для справки")
 		fmt.Fscan(os.Stdin, &userCommand)
 		if userCommand == "Exit" || userCommand == "exit" { //EXIT FROM FOR
-			Write(*file, lines)
+			WriteDateInFile(*file, lines)
 			WriteLog(lines)
 			break
 		}

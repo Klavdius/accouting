@@ -22,41 +22,40 @@ func SelectionUserCommand(num int) {
 // add user data in slice
 func WriteNewDataInLines(num int) {
 	var (
-		str        string
+		data       string
 		targetLine int
 		res        bool
 	)
-	_, err := fmt.Fscan(os.Stdin, &str)
+	_, err := fmt.Fscan(os.Stdin, &data)
 	if err != nil {
 		return
 	}
-	if _, err := strconv.Atoi(str); err == nil {
+	if _, err := strconv.Atoi(data); err == nil {
 		for i, v := range lines {
 			res = strings.Contains(v, teg[num])
 			if res == true {
 				targetLine = i
 			}
 		}
-		lines[targetLine] = teg[num] + " -> " + str
+		lines[targetLine] = teg[num] + " -> " + data
 	} else {
 		fmt.Println("!!Введено не число!!\n")
 	}
 
 }
 
-// add data in target slice
-func ActionAdd(newLines []string, line string, data string) {
+func AddDataInLineSlice(line string, data string) {
 	var (
 		res        bool
 		targetLine int
 	)
-	for i, v := range newLines {
+	for i, v := range lines {
 		res = strings.Contains(v, line)
 		if res == true {
 			targetLine = i
 		}
 	}
-	newLines[targetLine] = line + " -> " + data
+	lines[targetLine] = line + " -> " + data
 }
 
 func SetNewTargetDay() {
@@ -92,7 +91,7 @@ func IncrementExpenses() {
 	}
 
 	if _, err := strconv.Atoi(input); err == nil {
-		ActionAdd(lines, "expenses", input)
+		AddDataInLineSlice("expenses", input)
 	} else {
 		fmt.Println("!!Введено не число!!\n")
 	}
@@ -106,21 +105,21 @@ func IncrementBase() {
 		return
 	}
 	if newPlus, err := strconv.Atoi(input); err == nil {
-		base := GetDataLine("base")
+		base := GetIntDataFromFieldSlice("base")
 		base = base + newPlus
 		strBase := strconv.Itoa(base)
-		ActionAdd(lines, "base", strBase)
+		AddDataInLineSlice("base", strBase)
 	} else {
 		fmt.Println("!!Введено не число!!\n")
 	}
 }
 
 func DisplayMainInfo() {
-	myBal := GetStringDataLineFromSlice("balance")
-	myTar := GetStringDataLineFromSlice("target")
-	myMoney := GetStringDataLineFromSlice("saveMoney")
-	myMID := GetStringDataLineFromSlice("moneyInDay")
-	myDay := GetStringDataLineFromSlice("daysLeft")
+	myBal := GetStringDataFromFieldSlice("balance")
+	myTar := GetStringDataFromFieldSlice("target")
+	myMoney := GetStringDataFromFieldSlice("saveMoney")
+	myMID := GetStringDataFromFieldSlice("moneyInDay")
+	myDay := GetStringDataFromFieldSlice("daysLeft")
 	fmt.Println("Текущий баланс: " + myBal + "  Цель достич: " + myTar + "\n" + "Доступно: " + myMoney + " Доступно в день: " + myMID + " Осталось дней: " + myDay)
 }
 
@@ -137,15 +136,14 @@ func ShowListNameAllFunction() {
 }
 
 func ShowInfoNextDay() {
-	day := GetDataLine("daysLeft")
-	save := GetDataLine("saveMoney")
+	day := GetIntDataFromFieldSlice("daysLeft")
+	save := GetIntDataFromFieldSlice("saveMoney")
 	nexMID := save / (day - 1)
 	strNMID := strconv.Itoa(nexMID)
 	fmt.Println("На следующий день доступно: " + strNMID + "\n")
 }
-func CreatEmptyList(slice []string) []string {
+func CreatEmptyList() {
 	for _, teg := range fullTeg {
-		slice = append(slice, teg+" -> 0")
+		lines = append(lines, teg+" -> 0")
 	}
-	return slice
 }
