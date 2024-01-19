@@ -19,13 +19,13 @@ func SelectionUserCommand(num int) {
 	}
 }
 
-// add user data in slice
 func WriteNewDataInLines(num int) {
 	var (
 		data       string
 		targetLine int
 		res        bool
 	)
+	ShowInfoData(num)
 	_, err := fmt.Fscan(os.Stdin, &data)
 	if err != nil {
 		return
@@ -41,7 +41,6 @@ func WriteNewDataInLines(num int) {
 	} else {
 		fmt.Println("!!Введено не число!!\n")
 	}
-
 }
 
 func AddDataInLineSlice(line string, data string) {
@@ -84,7 +83,9 @@ func SetNewTargetDay() {
 
 func IncrementExpenses() {
 	var input string
-	fmt.Println(message[4])
+	NumberLineExpenses := FindNumberLineInSlice("expenses")
+	ShowInfoData(NumberLineExpenses)
+	fmt.Println(message[NumberLineExpenses])
 	_, err := fmt.Fscan(os.Stdin, &input)
 	if err != nil {
 		return

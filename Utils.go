@@ -29,7 +29,6 @@ func CheckDayUntil() {
 		str_dayLeft := strconv.Itoa(leftDays)
 		AddDataInLineSlice("daysLeft", str_dayLeft)
 	}
-
 }
 
 func FindManeyInOneDay() {
@@ -42,7 +41,6 @@ func FindManeyInOneDay() {
 	} else {
 		AddDataInLineSlice("moneyInDay", "0")
 	}
-
 }
 
 func FindSaveMoney() {
@@ -126,4 +124,21 @@ func BuildSliceLinesFromFile(fileName string) {
 	for _, word := range stringData {
 		lines = append(lines, word)
 	}
+}
+
+func ShowInfoData(numberLine int) {
+	SliceLine := lines[numberLine]
+	targetData := strings.Split(SliceLine, " -> ")
+	fmt.Println("Сейчас" + " " + targetData[1])
+}
+
+func FindNumberLineInSlice(nameLine string) int {
+	var searchNumber int
+	for i, v := range lines {
+		tegLine := strings.Split(v, " -> ")
+		if tegLine[0] == nameLine {
+			searchNumber = i
+		}
+	}
+	return searchNumber
 }

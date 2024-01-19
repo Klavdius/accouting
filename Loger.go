@@ -29,9 +29,14 @@ func WriteLog(lines []string) {
 
 	record := stringCurrentDay + " Осталось: " + save + " текущие расходы: " + expenses + " денег в день: " + strMID + " " + analyses
 
-	oldSaveMoney := GetSaveMoneyLastLine()
-	ChangeDay := CheckChangeDay()
-	if oldSaveMoney != save || ChangeDay == "Change" {
+	CheckEmptyFileLog := GetLengLogFile()
+	if CheckEmptyFileLog != 1 {
+		oldSaveMoney := GetSaveMoneyLastLine()
+		ChangeDay := CheckChangeDay()
+		if oldSaveMoney != save || ChangeDay == "Change" {
+			WriteInLog(*logFile, record)
+		}
+	} else {
 		WriteInLog(*logFile, record)
 	}
 }
@@ -59,7 +64,7 @@ func GetAnalysesLog(MID string) (result string, err error) {
 		}
 
 	} else {
-		return "_", err
+		return "", err
 	}
 }
 
