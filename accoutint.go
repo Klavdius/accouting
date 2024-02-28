@@ -1,49 +1,47 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io/fs"
 	"os"
+	"regexp"
 )
 
-var lines = []string{}
-
 func main() {
-	file, err := os.OpenFile("./finance.txt", os.O_CREATE|os.O_RDWR, 0777)
+	entries, err := os.ReadDir("./")
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("error")
 	}
-	defer file.Close()
-	var userCommand string
-
-	BuildSliceLinesFromFile("./finance.txt")
-	//check empty list finance.txt
-	if len(lines) <= 1 {
-		CreatEmptyList()
+	infos := make([]fs.FileInfo, 0, len(entries))
+	for _, entry := range entries {
+		info, err := entry.Info()
+		if err != nil {
+			fmt.Println("error")
+		}
+		reg, _ := regexp.MatchString("Acc_", info.Name())
+		if reg {
+			infos = append(infos, info)
+		}
 	}
-	//update all days
-
-	/*********************************/
+	CheckingLengInfos(infos)
+	DisplayFile(infos)
 
 	for {
-		CheckDayUntil()
-		ChengeBalance()
-		FindSaveMoney()
-		FindManeyInOneDay()
-		DisplayMainInfo()
+		var in *bufio.Reader
+		var out *bufio.Writer
+		in = bufio.NewReader(os.Stdin)
+		out = bufio.NewWriter(os.Stdout)
+		defer out.Flush()
 
-		fmt.Println("\n" + "Введите команду или \"List\" для справки")
-		fmt.Fscan(os.Stdin, &userCommand)
-		if userCommand == "Exit" || userCommand == "exit" { //EXIT FROM FOR
-			WriteDateInFile(*file, lines)
-			WriteLog(lines)
+		var (
+			command  string
+			exitFlag bool
+		)
+		fmt.Fscan(in, &command)
+		exitFlag = RouterCommand(command)
+		if exitFlag {
 			break
-		}
-
-		iter, ok := allMap[userCommand]
-		if ok != false {
-			SelectionUserCommand(iter)
-		} else {
-			fmt.Println("Нет такой команды(( наберите list")
 		}
 	}
 }
