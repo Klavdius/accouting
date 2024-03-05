@@ -1,17 +1,34 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
-var function = map[string]func(){
-	"New": New,
+type RouterCommand struct {
+	fileList []string
+	usingMap map[string]string
+	account  Accountant
 }
 
-func RouterCommand(command string) bool {
+func (r *RouterCommand) InputCommand(command string) bool {
 	exitFlag := false
 	if command != "Exit" {
-		v, ok := function[command]
+		v, ok := r.usingMap[command]
 		if ok {
-			v()
+			switch v {
+			case "New":
+				nameNewFile := New()
+				r.AppendNameFileToSlice(nameNewFile)
+				DisplayFile(r.fileList)
+
+			case "Select":
+				var newCommand string
+				fmt.Println("Введите название файла")
+				fmt.Fscan(os.Stdin, &newCommand)
+				r.account.name = newCommand
+				r.account.ReadInfoFromFile()
+			}
 		}
 	} else {
 		exitFlag = true
@@ -19,6 +36,18 @@ func RouterCommand(command string) bool {
 	return exitFlag
 }
 
-func New() {
-	fmt.Println("input New")
+func (r *RouterCommand) AppendNameFileToSlice(name string) {
+	double := false
+	for _, v := range r.fileList {
+		if v == name {
+			double = true
+		}
+	}
+	if !double {
+		r.fileList = append(r.fileList, name)
+	}
+}
+
+func (r *RouterCommand) DisplayInfoAboutAccount() {
+
 }

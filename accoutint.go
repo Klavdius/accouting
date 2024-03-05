@@ -13,19 +13,13 @@ func main() {
 	if err != nil {
 		fmt.Println("error")
 	}
-	infos := make([]fs.FileInfo, 0, len(entries))
-	for _, entry := range entries {
-		info, err := entry.Info()
-		if err != nil {
-			fmt.Println("error")
-		}
-		reg, _ := regexp.MatchString("Acc_", info.Name())
-		if reg {
-			infos = append(infos, info)
-		}
-	}
-	CheckingLengInfos(infos)
-	DisplayFile(infos)
+
+	listFile := CreatListAboutFileInDirect(entries)
+	CheckingLengInfos(listFile)
+	DisplayFile(listFile)
+	var r RouterCommand
+	r.fileList = listFile
+	r.usingMap = function
 
 	for {
 		var in *bufio.Reader
@@ -39,9 +33,24 @@ func main() {
 			exitFlag bool
 		)
 		fmt.Fscan(in, &command)
-		exitFlag = RouterCommand(command)
+		exitFlag = r.InputCommand(command)
 		if exitFlag {
 			break
 		}
 	}
+}
+
+func CreatListAboutFileInDirect(dir []fs.DirEntry) []string {
+	infos := make([]string, 0, len(dir))
+	for _, entry := range dir {
+		info, err := entry.Info()
+		if err != nil {
+			fmt.Println("error")
+		}
+		reg, _ := regexp.MatchString("Acc_", info.Name())
+		if reg {
+			infos = append(infos, info.Name())
+		}
+	}
+	return infos
 }
