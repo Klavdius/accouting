@@ -9,7 +9,7 @@ import (
 
 func MakeAccountant(nameInput string, yearInput int) Accountant {
 	var a Accountant
-	a.name = "Acc_" + nameInput
+	a.name = nameInput
 	a.year = yearInput
 	return a
 }
@@ -46,8 +46,8 @@ func CreatAccountantToString(a Accountant) string {
 		ConvectIntToStr(a.expenses) +
 		ConvectIntToStr(a.salary) +
 		ConvectIntToStr(a.receipts) +
-		ConvectIntToStr(a.target)
-
+		ConvectIntToStr(a.target) +
+		a.beforeDay
 	return line
 }
 
@@ -56,6 +56,7 @@ func New() string {
 	t := time.Now()
 	a.name = t.Month().String()
 	a.year = t.Year()
+	a.beforeDay = "2024-Jan-01"
 	name, err := CreatFile(a)
 	if err != nil {
 		fmt.Println("файл не создан!")

@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"strings"
+	"time"
 )
 
 type Accountant struct {
@@ -15,6 +17,7 @@ type Accountant struct {
 	salary      int
 	receipts    int
 	target      int
+	beforeDay   string
 }
 
 func (a *Accountant) ReadInfoFromFile() {
@@ -26,7 +29,6 @@ func (a *Accountant) ReadInfoFromFile() {
 	}
 	stringFileData := string(fileData)
 	stringData := strings.Split(stringFileData, "\n")
-	a.name = a.name
 	a.year = ConvectStrToInt(stringData[1])
 	a.startBase = ConvectStrToInt(stringData[2])
 	a.currentBase = ConvectStrToInt(stringData[3])
@@ -34,4 +36,51 @@ func (a *Accountant) ReadInfoFromFile() {
 	a.salary = ConvectStrToInt(stringData[5])
 	a.receipts = ConvectStrToInt(stringData[6])
 	a.target = ConvectStrToInt(stringData[7])
+	a.beforeDay = stringData[8]
+}
+
+func (a Accountant) MoneyOnDay() int {
+	var (
+		MoD = 0
+		//currentTime time.Time
+		//nextTime time.Time
+	)
+	nextUnixMonth, _ := time.Parse("2006-Jan-02", a.beforeDay)
+	dayLeft := nextUnixMonth.Unix()
+	currentDay := time.Now().Unix()
+	remains := dayLeft - currentDay
+	needDay := float64(remains / 86400)
+	needDay = math.Round(needDay)
+	leftDays := int(needDay)
+	fmt.Println(leftDays)
+
+	return MoD
+}
+
+func (a *Accountant) SetStartBase(data int) {
+	a.startBase = data
+}
+
+func (a *Accountant) SetExpenses(data int) {
+	a.expenses = data
+}
+
+func (a *Accountant) SetSalary(data int) {
+	a.salary = data
+}
+
+func (a *Accountant) FoundCurrentBase() {
+	a.currentBase = a.startBase + a.salary - a.expenses
+}
+
+func (a *Accountant) SetNewPlus(data int) {
+	a.startBase = a.startBase + data
+}
+
+func (a *Accountant) FoundReceipts() {
+	a.receipts = a.salary - a.expenses
+}
+
+func (a *Accountant) SetBeforeDay(data string) {
+	a.beforeDay = data
 }

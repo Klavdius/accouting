@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 )
 
 type RouterCommand struct {
@@ -26,8 +27,10 @@ func (r *RouterCommand) InputCommand(command string) bool {
 				var newCommand string
 				fmt.Println("Введите название файла")
 				fmt.Fscan(os.Stdin, &newCommand)
-				r.account.name = newCommand
+				r.account = MakeAccountant(newCommand, time.Now().Year())
 				r.account.ReadInfoFromFile()
+			case "s":
+				r.account.MoneyOnDay()
 			}
 		}
 	} else {
@@ -49,5 +52,6 @@ func (r *RouterCommand) AppendNameFileToSlice(name string) {
 }
 
 func (r *RouterCommand) DisplayInfoAboutAccount() {
-
+	fmt.Println("Текущий баланс -- " + ConvectIntToStr(r.account.currentBase))
+	fmt.Println("Доступно в день -- ")
 }
