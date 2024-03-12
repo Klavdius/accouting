@@ -20,6 +20,19 @@ type Accountant struct {
 	beforeDay   string
 }
 
+func (a Accountant) MoneyOnDay() int {
+	nextUnixMonth, _ := time.Parse("2006-Jan-02", a.beforeDay)
+	dayLeft := nextUnixMonth.Unix()
+	currentDay := time.Now().Unix()
+	remains := dayLeft - currentDay
+	needDay := float64(remains / 86400)
+	needDay = math.Round(needDay)
+	leftDays := int(needDay)
+	fmt.Print("Осталось дней: " + ConvectIntToStr(leftDays) + " ")
+	saveMoney := a.salary - (a.target - a.startBase) - a.expenses
+	return saveMoney / leftDays
+}
+
 func (a *Accountant) ReadInfoFromFile() {
 	fileName := a.name + ".txt"
 
@@ -37,24 +50,23 @@ func (a *Accountant) ReadInfoFromFile() {
 	a.receipts = ConvectStrToInt(stringData[6])
 	a.target = ConvectStrToInt(stringData[7])
 	a.beforeDay = stringData[8]
+
 }
 
-func (a Accountant) MoneyOnDay() int {
-	var (
-		MoD = 0
-		//currentTime time.Time
-		//nextTime time.Time
-	)
-	nextUnixMonth, _ := time.Parse("2006-Jan-02", a.beforeDay)
-	dayLeft := nextUnixMonth.Unix()
-	currentDay := time.Now().Unix()
-	remains := dayLeft - currentDay
-	needDay := float64(remains / 86400)
-	needDay = math.Round(needDay)
-	leftDays := int(needDay)
-	fmt.Println(leftDays)
-
-	return MoD
+func (a Accountant) WriteDataInFile() {
+	file, err := os.OpenFile("./"+a.name+".txt", os.O_CREATE|os.O_RDWR, 0777)
+	if err != nil {
+		fmt.Println(err.Error() + " Ошибка записи в файл")
+	}
+	defer file.Close()
+	data := CreatData(a)
+	for i, v := range data {
+		if i < (len(data) - 1) {
+			file.WriteString(v + "\n")
+		} else {
+			file.WriteString(v)
+		}
+	}
 }
 
 func (a *Accountant) SetStartBase(data int) {
@@ -70,7 +82,7 @@ func (a *Accountant) SetSalary(data int) {
 }
 
 func (a *Accountant) FoundCurrentBase() {
-	a.currentBase = a.startBase + a.salary - a.expenses
+	a.currentBase = a.startBase - a.expenses
 }
 
 func (a *Accountant) SetNewPlus(data int) {
@@ -83,4 +95,12 @@ func (a *Accountant) FoundReceipts() {
 
 func (a *Accountant) SetBeforeDay(data string) {
 	a.beforeDay = data
+}
+
+func (a *Accountant) SetTarget(data int) {
+	a.target = data
+}
+
+func (a *Accountant) SetNewName(data string) {
+	a.name = data
 }

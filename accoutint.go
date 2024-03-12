@@ -21,17 +21,19 @@ func main() {
 	r.fileList = listFile
 	r.usingMap = function
 
-	for {
-		var in *bufio.Reader
-		var out *bufio.Writer
-		in = bufio.NewReader(os.Stdin)
-		out = bufio.NewWriter(os.Stdout)
-		defer out.Flush()
+	var in *bufio.Reader
+	var out *bufio.Writer
+	in = bufio.NewReader(os.Stdin)
+	out = bufio.NewWriter(os.Stdout)
+	defer out.Flush()
 
-		var (
-			command  string
-			exitFlag bool
-		)
+	var (
+		command  string
+		exitFlag bool
+	)
+
+	for {
+		r.DisplayInfoAboutAccount()
 		fmt.Fscan(in, &command)
 		exitFlag = r.InputCommand(command)
 		if exitFlag {

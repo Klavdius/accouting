@@ -1,12 +1,18 @@
 package main
 
-var function = map[string]string{
-	"New":       "New",
-	"Select":    "Select",
-	"s":         "s",
-	"Minus":     "Minus",
-	"Plus":      "Plus",
-	"Base":      "Base",
-	"Salary":    "Salary",
-	"BeforeDay": "BeforeDay",
+type fn func(*RouterCommand)
+
+var function = map[string]fn{
+	"New":       NewFile,
+	"Select":    Select,
+	"s":         s,
+	"Minus":     Minus,
+	"Plus":      Plus,
+	"Base":      Base,
+	"Salary":    Salary,
+	"Target":    Target,
+	"BeforeDay": BeforeDay,
+	"Save":      Save,
+	"Rename":    Rename,
+	"Cancel":    Cancel,
 }
