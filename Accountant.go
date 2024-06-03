@@ -34,7 +34,7 @@ func (a Accountant) MoneyOnDay() int {
 }
 
 func (a *Accountant) ReadInfoFromFile() {
-	fileName := a.name + ".txt"
+	fileName := "./mount/" + a.name + ".txt"
 
 	fileData, err := os.ReadFile(fileName)
 	if err != nil {

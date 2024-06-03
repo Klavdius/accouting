@@ -9,14 +9,14 @@ import (
 )
 
 func main() {
-	entries, err := os.ReadDir("./")
+	entries, err := os.ReadDir("./mount")
 	if err != nil {
 		fmt.Println("error")
 	}
 
 	listFile := CreatListAboutFileInDirect(entries)
 	CheckingLengInfos(listFile)
-	DisplayFile(listFile)
+
 	var r RouterCommand
 	r.fileList = listFile
 	r.usingMap = function
@@ -34,6 +34,10 @@ func main() {
 
 	for {
 		r.DisplayInfoAboutAccount()
+		checkNeedList := NeedListOfFiles(r)
+		if checkNeedList {
+			DisplayFile(listFile)
+		}
 		fmt.Fscan(in, &command)
 		exitFlag = r.InputCommand(command)
 		if exitFlag {
@@ -55,4 +59,11 @@ func CreatListAboutFileInDirect(dir []fs.DirEntry) []string {
 		}
 	}
 	return infos
+}
+
+func NeedListOfFiles(r RouterCommand) bool {
+	if r.account.name == "" {
+		return true
+	}
+	return false
 }

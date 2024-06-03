@@ -55,6 +55,7 @@ func (r *RouterCommand) DisplayInfoAboutAccount() {
 		MoD := r.account.MoneyOnDay()
 		fmt.Println("Доступно в день -- " + ConvectIntToStr(MoD))
 	}
+	fmt.Print("->")
 }
 
 func Select(r *RouterCommand) {
@@ -138,5 +139,6 @@ func s(r *RouterCommand) {
 }
 
 func Cancel(r *RouterCommand) {
-
+	r.account.name = ""
+	fmt.Println("Текущий файл закрыт")
 }

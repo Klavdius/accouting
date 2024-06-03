@@ -27,6 +27,7 @@ func DisplayFile(infos []string) {
 		fmt.Print(v + " ")
 	}
 	fmt.Println()
+	fmt.Print("->")
 }
 
 func CheckingLengInfos(infos []string) {
@@ -36,7 +37,7 @@ func CheckingLengInfos(infos []string) {
 }
 
 func CreatFile(a Accountant) (string, error) {
-	file, err := os.OpenFile("Acc_"+a.name+"_"+strconv.Itoa(a.year)+".txt", os.O_CREATE|os.O_RDWR, 0777)
+	file, err := os.OpenFile("./mount/Acc_"+a.name+"_"+strconv.Itoa(a.year)+".txt", os.O_CREATE|os.O_RDWR, 0777)
 	if err != nil {
 		return "", err
 	}
@@ -89,8 +90,8 @@ func ConvectStrToInt(data string) int {
 }
 
 func HelpList() {
-	for i, _ := range function {
-		fmt.Print(i + " ")
+	for i, v := range helpMap {
+		fmt.Println(i + " -> " + v)
 	}
 	fmt.Println()
 }
