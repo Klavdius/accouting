@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"regexp"
+	"strings"
 	"time"
 )
 
@@ -11,16 +13,30 @@ type RouterCommand struct {
 	usingMap map[string]fn
 	account  Accountant
 	data     int
+	arg1     string
+	arg2     string
+	res      int
 }
 
 func (r *RouterCommand) InputCommand(command string) bool {
 	exitFlag := false
-
-	if command != "Exit" {
-		if command != "Help" {
-			_, ok := r.usingMap[command]
+	command = strings.TrimSpace(command)
+	var commandSplit = []string{"", "", ""}
+	commandSplit = strings.Split(command, " ")
+	if len(commandSplit) == 3 {
+		r.arg1 = commandSplit[1]
+		r.arg2 = commandSplit[2]
+	}
+	if len(commandSplit) == 2 {
+		r.arg1 = commandSplit[1]
+		r.arg2 = ""
+	}
+	if commandSplit[0] != "Exit" {
+		if commandSplit[0] != "Help" {
+			_, ok := r.usingMap[commandSplit[0]]
 			if ok {
-				r.usingMap[command](r)
+				r.usingMap[commandSplit[0]](r)
+				r.CleanArgument()
 			} else {
 				fmt.Println("Такой команды нет( набирите Help")
 			}
@@ -59,10 +75,11 @@ func (r *RouterCommand) DisplayInfoAboutAccount() {
 }
 
 func Select(r *RouterCommand) {
-	var newCommand string
-	fmt.Println("Введите название файла")
-	fmt.Fscan(os.Stdin, &newCommand)
-	r.account = MakeAccountant(newCommand, time.Now().Year())
+	reg, _ := regexp.MatchString("\\.txt", r.arg1)
+	if reg {
+		r.arg1 = r.arg1[:len(r.arg1)-4]
+	}
+	r.account = MakeAccountant(r.arg1, time.Now().Year())
 	r.account.ReadInfoFromFile()
 }
 
@@ -73,7 +90,6 @@ func NewFile(r *RouterCommand) {
 }
 
 func Base(r *RouterCommand) {
-
 	fmt.Println("Предыдущее значение: " + ConvectIntToStr(r.account.startBase))
 	fmt.Println("Введите стартовый баланс")
 	fmt.Fscan(os.Stdin, &r.data)
@@ -141,4 +157,9 @@ func s(r *RouterCommand) {
 func Cancel(r *RouterCommand) {
 	r.account.name = ""
 	fmt.Println("Текущий файл закрыт")
+}
+
+func (r *RouterCommand) CleanArgument() {
+	r.arg1 = ""
+	r.arg2 = ""
 }

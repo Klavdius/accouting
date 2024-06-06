@@ -6,6 +6,7 @@ import (
 	"io/fs"
 	"os"
 	"regexp"
+	"strings"
 )
 
 func main() {
@@ -38,7 +39,12 @@ func main() {
 		if checkNeedList {
 			DisplayFile(listFile)
 		}
-		fmt.Fscan(in, &command)
+		command, _ = in.ReadString('\n')
+		command = strings.TrimSpace(command)
+		if command == "" {
+			command, _ = in.ReadString('\n')
+			command = strings.TrimSpace(command)
+		}
 		exitFlag = r.InputCommand(command)
 		if exitFlag {
 			break
@@ -53,7 +59,7 @@ func CreatListAboutFileInDirect(dir []fs.DirEntry) []string {
 		if err != nil {
 			fmt.Println("error")
 		}
-		reg, _ := regexp.MatchString("Acc_", info.Name())
+		reg, _ := regexp.MatchString("\\.txt", info.Name())
 		if reg {
 			infos = append(infos, info.Name())
 		}

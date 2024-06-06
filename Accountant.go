@@ -54,9 +54,11 @@ func (a *Accountant) ReadInfoFromFile() {
 }
 
 func (a Accountant) WriteDataInFile() {
-	file, err := os.OpenFile("./"+a.name+".txt", os.O_CREATE|os.O_RDWR, 0777)
+	file, err := os.OpenFile("./mount/"+a.name+".txt", os.O_CREATE|os.O_RDWR, 0777)
 	if err != nil {
 		fmt.Println(err.Error() + " Ошибка записи в файл")
+	} else {
+		fmt.Println("Файл успешно сохранен")
 	}
 	defer file.Close()
 	data := CreatData(a)
