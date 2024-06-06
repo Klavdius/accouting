@@ -1,60 +1,75 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io/fs"
 	"os"
+	"regexp"
 	"strings"
 )
 
 func main() {
-	file, err := os.OpenFile("./finance.txt", os.O_CREATE|os.O_RDWR, 0777)
+	entries, err := os.ReadDir("./mount")
 	if err != nil {
-		fmt.Println(err)
-	}
-	defer file.Close()
-	var command string
-	var lines = []string{}
-
-	//custom system read from file
-	fileData, err := os.ReadFile("./finance.txt")
-	if err != nil {
-		fmt.Println(err)
-	}
-	stringFileData := string(fileData)
-	stringData := strings.Split(stringFileData, "\n")
-	if len(stringData) < 4 {
-		stringData = nil
-	}
-	for _, word := range stringData {
-		lines = append(lines, word)
+		fmt.Println("error")
 	}
 
-	//***************************************************************
+	listFile := CreatListAboutFileInDirect(entries)
+	CheckingLengInfos(listFile)
 
-	//check empty list finance.txt
-	if len(lines) <= 1 {
-		lines = CreatEmptyList(lines)
-	}
+	var r RouterCommand
+	r.fileList = listFile
+	r.usingMap = function
 
-	//update all days
-	CheckDays(lines)
-	/*********************************/
+	var in *bufio.Reader
+	var out *bufio.Writer
+	in = bufio.NewReader(os.Stdin)
+	out = bufio.NewWriter(os.Stdout)
+	defer out.Flush()
+
+	var (
+		command  string
+		exitFlag bool
+	)
 
 	for {
-		Display(lines)
-		fmt.Println("\n" + "Введите команду или \"List\" для справки")
-		fmt.Fscan(os.Stdin, &command)
-		if command == "exit" { //EXIT FROM FOR
-			fmt.Println("exit from program")
-			Write(*file, lines)
+		r.DisplayInfoAboutAccount()
+		checkNeedList := NeedListOfFiles(r)
+		if checkNeedList {
+			DisplayFile(listFile)
+		}
+		command, _ = in.ReadString('\n')
+		command = strings.TrimSpace(command)
+		if command == "" {
+			command, _ = in.ReadString('\n')
+			command = strings.TrimSpace(command)
+		}
+		exitFlag = r.InputCommand(command)
+		if exitFlag {
 			break
 		}
+	}
+}
 
-		iter, ok := allMap[command]
-		if ok != false {
-			MainAction(lines, iter)
-		} else {
-			fmt.Println("Нет такой команды(( наберите list")
+func CreatListAboutFileInDirect(dir []fs.DirEntry) []string {
+	infos := make([]string, 0, len(dir))
+	for _, entry := range dir {
+		info, err := entry.Info()
+		if err != nil {
+			fmt.Println("error")
+		}
+		reg, _ := regexp.MatchString("\\.txt", info.Name())
+		if reg {
+			infos = append(infos, info.Name())
 		}
 	}
+	return infos
+}
+
+func NeedListOfFiles(r RouterCommand) bool {
+	if r.account.name == "" {
+		return true
+	}
+	return false
 }
