@@ -37,7 +37,7 @@ func main() {
 		r.DisplayInfoAboutAccount()
 		checkNeedList := NeedListOfFiles(r)
 		if checkNeedList {
-			DisplayFile(listFile)
+			DisplayFile(r.fileList)
 		}
 		command, _ = in.ReadString('\n')
 		command = strings.TrimSpace(command)

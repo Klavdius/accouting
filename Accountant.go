@@ -28,29 +28,33 @@ func (a Accountant) MoneyOnDay() int {
 	needDay := float64(remains / 86400)
 	needDay = math.Round(needDay)
 	leftDays := int(needDay)
+	if leftDays < 0 {
+		leftDays = 0
+	}
 	fmt.Print("Осталось дней: " + ConvectIntToStr(leftDays) + " ")
 	saveMoney := a.salary - (a.target - a.startBase) - a.expenses
+	if leftDays == 0 {
+		leftDays++
+	}
 	return saveMoney / leftDays
 }
 
-func (a *Accountant) ReadInfoFromFile() {
+func (a *Accountant) ReadInfoFromFile() error {
 	fileName := "./mount/" + a.name + ".txt"
-
 	fileData, err := os.ReadFile(fileName)
-	if err != nil {
-		fmt.Println(err)
+	if err == nil {
+		stringFileData := string(fileData)
+		stringData := strings.Split(stringFileData, "\n")
+		a.year = ConvectStrToInt(stringData[1])
+		a.startBase = ConvectStrToInt(stringData[2])
+		a.currentBase = ConvectStrToInt(stringData[3])
+		a.expenses = ConvectStrToInt(stringData[4])
+		a.salary = ConvectStrToInt(stringData[5])
+		a.receipts = ConvectStrToInt(stringData[6])
+		a.target = ConvectStrToInt(stringData[7])
+		a.beforeDay = stringData[8]
 	}
-	stringFileData := string(fileData)
-	stringData := strings.Split(stringFileData, "\n")
-	a.year = ConvectStrToInt(stringData[1])
-	a.startBase = ConvectStrToInt(stringData[2])
-	a.currentBase = ConvectStrToInt(stringData[3])
-	a.expenses = ConvectStrToInt(stringData[4])
-	a.salary = ConvectStrToInt(stringData[5])
-	a.receipts = ConvectStrToInt(stringData[6])
-	a.target = ConvectStrToInt(stringData[7])
-	a.beforeDay = stringData[8]
-
+	return err
 }
 
 func (a Accountant) WriteDataInFile() {
@@ -105,4 +109,8 @@ func (a *Accountant) SetTarget(data int) {
 
 func (a *Accountant) SetNewName(data string) {
 	a.name = data
+}
+
+func (a *Accountant) Delete(data string) {
+
 }

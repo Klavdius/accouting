@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -46,7 +47,12 @@ func (r *RouterCommand) InputCommand(command string) bool {
 	} else {
 		exitFlag = true
 		if r.account.name != "" {
-			r.account.WriteDataInFile()
+			fmt.Println("Сохранить файл???  Y/N")
+			word := ""
+			fmt.Fscan(os.Stdin, &word)
+			if word == "Y" || word == "Yes" {
+				r.account.WriteDataInFile()
+			}
 		}
 	}
 	return exitFlag
@@ -80,53 +86,78 @@ func Select(r *RouterCommand) {
 		r.arg1 = r.arg1[:len(r.arg1)-4]
 	}
 	r.account = MakeAccountant(r.arg1, time.Now().Year())
-	r.account.ReadInfoFromFile()
+	errorReadFile := r.account.ReadInfoFromFile()
+	if errorReadFile != nil {
+		fmt.Println("Нет такого файла! Хотите его создать? Y/N")
+		word := ""
+		fmt.Fscan(os.Stdin, &word)
+		if word == "Y" || word == "Yes" {
+			nameNewFile := New(r.account.name)
+			_ = r.account.ReadInfoFromFile()
+			r.AppendNameFileToSlice(nameNewFile)
+		}
+	}
 }
 
 func NewFile(r *RouterCommand) {
-	nameNewFile := New()
+	nameNewFile := New(r.arg1)
 	r.AppendNameFileToSlice(nameNewFile)
 	DisplayFile(r.fileList)
 }
 
 func Base(r *RouterCommand) {
-	fmt.Println("Предыдущее значение: " + ConvectIntToStr(r.account.startBase))
-	fmt.Println("Введите стартовый баланс")
-	fmt.Fscan(os.Stdin, &r.data)
-	r.account.SetStartBase(r.data)
+	if r.arg1 == "" {
+		fmt.Println("Предыдущее значение: " + ConvectIntToStr(r.account.startBase))
+		fmt.Println("Введите стартовый баланс")
+		fmt.Fscan(os.Stdin, &r.arg1)
+	}
+	base, _ := strconv.Atoi(r.arg1)
+	r.account.SetStartBase(base)
 }
 
 func Minus(r *RouterCommand) {
-	fmt.Println("Предыдущее значение: " + ConvectIntToStr(r.account.expenses))
-	fmt.Println("Введите текущие расходы")
-	fmt.Fscan(os.Stdin, &r.data)
-	r.account.SetExpenses(r.data)
+	if r.arg1 == "" {
+		fmt.Println("Предыдущее значение: " + ConvectIntToStr(r.account.expenses))
+		fmt.Println("Введите текущие расходы")
+		fmt.Fscan(os.Stdin, &r.arg1)
+	}
+	minus, _ := strconv.Atoi(r.arg1)
+	r.account.SetExpenses(minus)
 	r.account.FoundCurrentBase()
 	r.account.FoundReceipts()
 }
 
 func Plus(r *RouterCommand) {
-	fmt.Println("Введите новые поступление")
-	fmt.Fscan(os.Stdin, &r.data)
-	r.account.SetNewPlus(r.data)
+	if r.arg1 == "" {
+		fmt.Println("Введите новые поступление")
+		fmt.Fscan(os.Stdin, &r.arg1)
+	}
+	plus, _ := strconv.Atoi(r.arg1)
+	r.account.SetNewPlus(plus)
 	r.account.FoundCurrentBase()
 	r.account.FoundReceipts()
 }
 
 func Salary(r *RouterCommand) {
-	fmt.Println("Предыдущее значение: " + ConvectIntToStr(r.account.salary))
-	fmt.Println("Введите ожидаемый доход")
-	fmt.Fscan(os.Stdin, &r.data)
-	r.account.SetSalary(r.data)
+	if r.arg1 == "" {
+		fmt.Println("Предыдущее значение: " + ConvectIntToStr(r.account.salary))
+		fmt.Println("Введите ожидаемый доход")
+		fmt.Fscan(os.Stdin, &r.arg1)
+	}
+	salary, _ := strconv.Atoi(r.arg1)
+	r.account.SetSalary(salary)
 	r.account.FoundCurrentBase()
 	r.account.FoundReceipts()
 }
 
 func Target(r *RouterCommand) {
-	fmt.Println("Предыдущее значение: " + ConvectIntToStr(r.account.target))
-	fmt.Println("Введите какую сумму хотим достигнуть")
-	fmt.Fscan(os.Stdin, &r.data)
-	r.account.SetTarget(r.data)
+	if r.arg1 == "" {
+		fmt.Println("Предыдущее значение: " + ConvectIntToStr(r.account.target))
+		fmt.Println("Введите какую сумму хотим достигнуть")
+		fmt.Fscan(os.Stdin, &r.arg1)
+	}
+	target, _ := strconv.Atoi(r.arg1)
+	r.account.SetTarget(target)
 }
 
 func BeforeDay(r *RouterCommand) {
@@ -139,17 +170,30 @@ func BeforeDay(r *RouterCommand) {
 }
 
 func Rename(r *RouterCommand) {
-	fmt.Println("Предыдущие имя файла: " + r.account.name)
-	fmt.Println("Введите новое имя для файла")
-	var data string
-	fmt.Fscan(os.Stdin, &data)
-	r.account.SetNewName(data)
+	if r.arg1 == "" {
+		fmt.Println("Предыдущие имя файла: " + r.account.name)
+		fmt.Println("Введите новое имя для файла")
+		fmt.Fscan(os.Stdin, &r.arg1)
+	}
+	r.account.SetNewName(r.arg1)
 }
 
 func Save(r *RouterCommand) {
 	r.account.WriteDataInFile()
 }
 
+func Delete(r *RouterCommand) {
+	if r.account.name != "" {
+		fmt.Println("Сначала завершите работу с текущим файлом и выйдите из него")
+	} else {
+		if r.arg1 == "" {
+			fmt.Println("Какой файл вы хотите удалить?")
+			fmt.Fscan(os.Stdin, &r.arg1)
+		}
+		DeleteFile(r.arg1)
+		r.RebuildFileList()
+	}
+}
 func s(r *RouterCommand) {
 
 }
@@ -162,4 +206,14 @@ func Cancel(r *RouterCommand) {
 func (r *RouterCommand) CleanArgument() {
 	r.arg1 = ""
 	r.arg2 = ""
+}
+
+func (r *RouterCommand) RebuildFileList() {
+	newList := []string{}
+	for _, v := range r.fileList {
+		if v != r.arg1+".txt" {
+			newList = append(newList, v)
+		}
+	}
+	r.fileList = newList
 }

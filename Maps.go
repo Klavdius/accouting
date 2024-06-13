@@ -15,6 +15,7 @@ var function = map[string]fn{
 	"Save":      Save,
 	"Rename":    Rename,
 	"Cancel":    Cancel,
+	"Delete":    Delete,
 }
 
 var helpMap = map[string]string{

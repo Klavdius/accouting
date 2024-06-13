@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="87737ca3-b861-4c20-ae77-9dc6bbdb747f" name="Changes" comment="rebuild RouterCommand&#10;delete switch in Router&#10;add new func">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_12_2023_15_36__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_12_2023_15_36__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Acc_June_2024.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Accountant.go" beforeDir="false" afterPath="$PROJECT_DIR$/Accountant.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Maps.go" beforeDir="false" afterPath="$PROJECT_DIR$/Maps.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RouterCommand.go" beforeDir="false" afterPath="$PROJECT_DIR$/RouterCommand.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accouting.exe" beforeDir="false" afterPath="$PROJECT_DIR$/accouting.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accoutint.go" beforeDir="false" afterPath="$PROJECT_DIR$/accoutint.go" afterDir="false" />
@@ -29,7 +31,7 @@
     <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="testStructureAccounting" />
+        <entry key="$PROJECT_DIR$" value="structureAccounting" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -69,7 +71,7 @@
     &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;structureAccounting&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;S:/projectGo/accouting&quot;,
@@ -99,6 +101,17 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Delite func Save" />
     <MESSAGE value="add functional Loger&#10;create and write Log&#10;need improvement alanyses in Log.&#10;mb reforg GetStringDataLine -&gt; return slise with all data from oroginal slice" />
@@ -112,7 +125,8 @@
     <MESSAGE value="new build programm with stucture" />
     <MESSAGE value="rebuild RouterCommand&#10;Add system lock file &#10;need write methods Routers" />
     <MESSAGE value="rebuild RouterCommand&#10;delete switch in Router&#10;add new func" />
-    <option name="LAST_COMMIT_MESSAGE" value="rebuild RouterCommand&#10;delete switch in Router&#10;add new func" />
+    <MESSAGE value="creat smart read string&#10;fix path in func Save&#10;add fix func Select" />
+    <option name="LAST_COMMIT_MESSAGE" value="creat smart read string&#10;fix path in func Save&#10;add fix func Select" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
@@ -122,12 +136,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/RouterCommand.go</url>
-          <line>30</line>
+          <line>31</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/Accountant.go</url>
-          <line>56</line>
+          <line>57</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -137,10 +151,20 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/RouterCommand.go</url>
-          <line>64</line>
-          <option name="timeStamp" value="12" />
+          <line>83</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/Accountant.go</url>
+          <line>36</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="GoApplicationRunConfiguration">
+        <watch expression="*(*&quot;[]string&quot;)(824634522680)" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

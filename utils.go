@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"strconv"
 	"time"
 )
@@ -37,13 +38,26 @@ func CheckingLengInfos(infos []string) {
 }
 
 func CreatFile(a Accountant) (string, error) {
-	file, err := os.OpenFile("./mount/Acc_"+a.name+"_"+strconv.Itoa(a.year)+".txt", os.O_CREATE|os.O_RDWR, 0777)
+	file, err := os.OpenFile("./mount/"+a.name+".txt", os.O_CREATE|os.O_RDWR, 0777)
 	if err != nil {
 		return "", err
 	}
-
 	file.WriteString(CreatAccountantToString(a))
-	return "Acc_" + a.name + "_" + strconv.Itoa(a.year), err
+	return a.name, err
+}
+
+func DeleteFile(nameFile string) {
+	reg, _ := regexp.MatchString("\\.txt", nameFile)
+	if reg {
+		nameFile = nameFile[:len(nameFile)-4]
+	}
+
+	err := os.Remove("./mount/" + nameFile + ".txt")
+	if err != nil {
+		fmt.Println("Не удалось удалить файл")
+	} else {
+		fmt.Println("Файл успешно удалён")
+	}
 }
 
 func CreatAccountantToString(a Accountant) string {
@@ -60,17 +74,21 @@ func CreatAccountantToString(a Accountant) string {
 	return line
 }
 
-func New() string {
+func New(newName string) string {
 	var a Accountant
 	t := time.Now()
-	a.name = t.Month().String()
+	if newName == "" {
+		a.name = t.Month().String()
+	} else {
+		a.name = newName
+	}
 	a.year = t.Year()
 	a.beforeDay = "2024-Jan-01"
-	name, err := CreatFile(a)
+	newName, err := CreatFile(a)
 	if err != nil {
 		fmt.Println("файл не создан!")
 	}
-	return name
+	return newName + ".txt"
 }
 
 func CreatData(a Accountant) []string {
