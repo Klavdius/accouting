@@ -110,7 +110,3 @@ func (a *Accountant) SetTarget(data int) {
 func (a *Accountant) SetNewName(data string) {
 	a.name = data
 }
-
-func (a *Accountant) Delete(data string) {
-
-}

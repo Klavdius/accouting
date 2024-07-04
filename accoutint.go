@@ -3,9 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"io/fs"
 	"os"
-	"regexp"
 	"strings"
 )
 
@@ -50,26 +48,4 @@ func main() {
 			break
 		}
 	}
-}
-
-func CreatListAboutFileInDirect(dir []fs.DirEntry) []string {
-	infos := make([]string, 0, len(dir))
-	for _, entry := range dir {
-		info, err := entry.Info()
-		if err != nil {
-			fmt.Println("error")
-		}
-		reg, _ := regexp.MatchString("\\.txt", info.Name())
-		if reg {
-			infos = append(infos, info.Name())
-		}
-	}
-	return infos
-}
-
-func NeedListOfFiles(r RouterCommand) bool {
-	if r.account.name == "" {
-		return true
-	}
-	return false
 }
